@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Responsive layout -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Browser / theme metadata -->
+  <meta name="theme-color" content="#070709" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- SEO -->
+  <meta
+    name="description"
+    content="Clayve — discover trending movies, top-rated films, new releases, and action-packed entertainment."
+  />
+
+  <meta
+    name="keywords"
+    content="Clayve, movies, streaming, films, TV shows, trending movies, new releases"
+  />
+
+  <meta name="author" content="Clayve" />
+
+  <!-- Page title -->
+  <title>Clayve — Movies & Entertainment</title>
+
+  <!-- Fonts -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- =========================================================
+       HEADER / NAVIGATION
+       ========================================================= -->
+
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+
+      <!-- Brand -->
+      <a
+        href="#home"
+        class="logo"
+        aria-label="Clayve home"
+      >
+        <svg
+          class="logo-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M4 5.5C4 4.67157 4.67157 4 5.5 4H18.5C19.3284 4 20 4.67157 20 5.5V18.5C20 19.3284 19.3284 20 18.5 20H5.5C4.67157 20 4 19.3284 4 18.5V5.5Z"
+            stroke="currentColor"
+            stroke-width="1.8"
+          />
+
+          <path
+            d="M9 8L16 12L9 16V8Z"
+            fill="currentColor"
+          />
+        </svg>
+
+        <span class="logo-text">Clayve</span>
+      </a>
+
+
+      <!-- Desktop navigation -->
+      <nav
+        class="nav-links"
+        aria-label="Primary navigation"
+      >
+        <a href="#home">Home</a>
+
+        <a href="#trending">
+          Trending
+        </a>
+
+        <a href="#new">
+          New Releases
+        </a>
+
+        <a href="#mylist">
+          My List
+
+          <span
+            class="list-count"
+            id="listCount"
+            aria-label="Number of saved titles"
+          >
+            0
+          </span>
+        </a>
+      </nav>
+
+
+      <!-- =====================================================
+           NAVIGATION ACTIONS
+           ===================================================== -->
+
+      <div class="nav-actions">
+
+        <!-- Search -->
+        <div class="search-box">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <circle
+              cx="11"
+              cy="11"
+              r="6.5"
+              stroke="currentColor"
+              stroke-width="1.8"
+            />
+
+            <path
+              d="M16 16L20 20"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+          </svg>
+
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search titles..."
+            aria-label="Search movies and shows"
+            autocomplete="off"
+            spellcheck="false"
+          />
+
+        </div>
+
+
+        <!-- =================================================
+             PROFILE MENU
+             ================================================= -->
+
+        <div class="profile-menu">
+
+          <!-- Profile button -->
+          <button
+            class="profile-badge"
+            id="profileButton"
+            type="button"
+            aria-label="Open profile menu"
+            aria-expanded="false"
+            aria-controls="profileDropdown"
+          >
+            C
+          </button>
+
+
+          <!-- Profile dropdown -->
+          <div
+            class="profile-dropdown"
+            id="profileDropdown"
+          >
+
+            <!-- Profile header -->
+            <div class="profile-dropdown-header">
+
+              <div class="profile-avatar">
+                C
+              </div>
+
+              <div class="profile-user-info">
+
+                <strong>
+                  Clayve User
+                </strong>
+
+                <span>
+                  Welcome back
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- Divider -->
+            <div class="profile-divider"></div>
+
+
+            <!-- Log In -->
+            <button
+              class="profile-option"
+              type="button"
+              data-profile-action="login"
+            >
+
+              <span class="profile-option-icon">
+                ↪
+              </span>
+
+              <span>
+                Log In
+              </span>
+
+            </button>
+
+
+            <!-- Watch History -->
+            <button
+              class="profile-option"
+              type="button"
+              data-profile-action="history"
+            >
+
+              <span class="profile-option-icon">
+                ◷
+              </span>
+
+              <span>
+                Watch History
+              </span>
+
+            </button>
+
+
+            <!-- Settings -->
+            <button
+              class="profile-option"
+              type="button"
+              data-profile-action="settings"
+            >
+
+              <span class="profile-option-icon">
+                ⚙
+              </span>
+
+              <span>
+                Settings
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Mobile menu button -->
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          type="button"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MOBILE NAVIGATION
+         ===================================================== -->
+
+    <nav
+      class="mobile-menu"
+      id="mobileMenu"
+      aria-label="Mobile navigation"
+    >
+
+      <a href="#home">
+        Home
+      </a>
+
+      <a href="#trending">
+        Trending
+      </a>
+
+      <a href="#new">
+        New Releases
+      </a>
+
+      <a href="#mylist">
+        My List
+      </a>
+
+    </nav>
+
+  </header>
+
+
+
+  <!-- =========================================================
+       MAIN CONTENT
+       ========================================================= -->
+
+  <main id="main-content">
+
+
+    <!-- =======================================================
+         HERO SECTION
+         ======================================================= -->
+
+    <section
+      class="hero"
+      id="home"
+      aria-labelledby="heroTitle"
+    >
+
+      <div class="container hero-inner">
+
+        <div class="hero-badge">
+          Featured
+        </div>
+
+
+        <h1
+          class="hero-title"
+          id="heroTitle"
+        >
+          Your next favorite
+          <span>movie</span>
+          is here.
+        </h1>
+
+
+        <div
+          class="hero-meta"
+          aria-label="Featured title information"
+        >
+
+          <span>
+            2026
+          </span>
+
+          <span>
+            Movie
+          </span>
+
+          <span>
+            HD
+          </span>
+
+        </div>
+
+
+        <p class="hero-desc">
+          Discover trending movies, timeless favorites, and
+          fresh releases all in one place.
+        </p>
+
+
+        <div class="hero-actions">
+
+          <!-- Play -->
+          <button
+            class="btn btn-primary"
+            id="heroPlayBtn"
+            type="button"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+
+              <path
+                d="M8 5L19 12L8 19V5Z"
+                fill="currentColor"
+              />
+
+            </svg>
+
+            Play
+
+          </button>
+
+
+          <!-- More info -->
+          <button
+            class="btn btn-secondary"
+            id="heroInfoBtn"
+            type="button"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+
+              <path
+                d="M12 10.5V16"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+
+              <circle
+                cx="12"
+                cy="7.5"
+                r="1"
+                fill="currentColor"
+              />
+
+            </svg>
+
+            More Info
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="perforation"
+        aria-hidden="true"
+      ></div>
+
+    </section>
+
+
+
+    <!-- =======================================================
+         MOVIE COLLECTIONS
+         ======================================================= -->
+
+    <section
+      class="content-section"
+      aria-label="Movie collections"
+    >
+
+      <div class="container">
+
+
+        <!-- ===================================================
+             TRENDING
+             =================================================== -->
+
+        <section
+          class="movie-row"
+          id="trending"
+          data-category="trending"
+          aria-labelledby="trendingTitle"
+        >
+
+          <div class="row-header">
+
+            <h2 id="trendingTitle">
+              Trending Now
+            </h2>
+
+            <button
+              class="row-arrow"
+              type="button"
+              aria-label="View more trending movies"
+            >
+              →
+            </button>
+
+          </div>
+
+          <div class="movie-track"></div>
+
+        </section>
+
+
+
+        <!-- ===================================================
+             TOP RATED
+             =================================================== -->
+
+        <section
+          class="movie-row"
+          data-category="top-rated"
+          aria-labelledby="topRatedTitle"
+        >
+
+          <div class="row-header">
+
+            <h2 id="topRatedTitle">
+              Top Rated
+            </h2>
+
+            <button
+              class="row-arrow"
+              type="button"
+              aria-label="View more top rated movies"
+            >
+              →
+            </button>
+
+          </div>
+
+          <div class="movie-track"></div>
+
+        </section>
+
+
+
+        <!-- ===================================================
+             NEW RELEASES
+             =================================================== -->
+
+        <section
+          class="movie-row"
+          id="new"
+          data-category="new"
+          aria-labelledby="newTitle"
+        >
+
+          <div class="row-header">
+
+            <h2 id="newTitle">
+              New Releases
+            </h2>
+
+            <button
+              class="row-arrow"
+              type="button"
+              aria-label="View more new releases"
+            >
+              →
+            </button>
+
+          </div>
+
+          <div class="movie-track"></div>
+
+        </section>
+
+
+
+        <!-- ===================================================
+             ACTION & ADVENTURE
+             =================================================== -->
+
+        <section
+          class="movie-row"
+          data-category="action"
+          aria-labelledby="actionTitle"
+        >
+
+          <div class="row-header">
+
+            <h2 id="actionTitle">
+              Action & Adventure
+            </h2>
+
+            <button
+              class="row-arrow"
+              type="button"
+              aria-label="View more action and adventure movies"
+            >
+              →
+            </button>
+
+          </div>
+
+          <div class="movie-track"></div>
+
+        </section>
+
+
+
+        <!-- ===================================================
+             SEARCH RESULTS
+             =================================================== -->
+
+        <section
+          class="movie-row"
+          id="searchRow"
+          data-category="search"
+          aria-labelledby="searchResultsTitle"
+          hidden
+        >
+
+          <div class="row-header">
+
+            <h2 id="searchResultsTitle">
+              Search Results
+            </h2>
+
+          </div>
+
+          <div class="movie-track"></div>
+
+        </section>
+
+
+
+        <!-- ===================================================
+             MY LIST
+             =================================================== -->
+
+        <section
+          class="movie-row"
+          id="mylist"
+          aria-labelledby="myListTitle"
+        >
+
+          <div class="row-header">
+
+            <h2 id="myListTitle">
+              My List
+            </h2>
+
+          </div>
+
+
+          <div
+            class="mylist-empty"
+            id="mylistEmpty"
+          >
+
+            <p>
+              Your list is empty. Add movies to see them here.
+            </p>
+
+          </div>
+
+
+          <div
+            class="movie-track"
+            id="mylistTrack"
+          ></div>
+
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =========================================================
+       MOVIE DETAILS MODAL
+       ========================================================= -->
+
+  <div
+    class="modal-overlay"
+    id="movieModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-hidden="true"
+  >
+
+    <div class="modal-box">
+
+      <button
+        class="modal-close"
+        id="modalClose"
+        type="button"
+        aria-label="Close movie details"
+      >
+        &times;
+      </button>
+
+
+      <div id="modalContent">
+        <!-- Movie details are inserted by JavaScript -->
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+
+  <footer class="footer">
+
+
+    <div class="container footer-top">
+
+
+      <!-- Footer brand -->
+      <div class="footer-brand">
+
+        <a
+          href="#home"
+          class="logo"
+          aria-label="Clayve home"
+        >
+
+          <svg
+            class="logo-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+          >
+
+            <path
+              d="M4 5.5C4 4.67157 4.67157 4 5.5 4H18.5C19.3284 4 20 4.67157 20 5.5V18.5C20 19.3284 19.3284 20 18.5 20H5.5C4.67157 20 4 19.3284 4 18.5V5.5Z"
+              stroke="currentColor"
+              stroke-width="1.8"
+            />
+
+            <path
+              d="M9 8L16 12L9 16V8Z"
+              fill="currentColor"
+            />
+
+          </svg>
+
+          <span class="logo-text">
+            Clayve
+          </span>
+
+        </a>
+
+
+        <p>
+          Discover something worth watching.
+        </p>
+
+      </div>
+
+
+
+      <!-- Footer columns -->
+      <div class="footer-cols">
+
+
+        <!-- Explore -->
+        <div class="footer-col">
+
+          <h3>
+            Explore
+          </h3>
+
+          <a href="#trending">
+            Trending
+          </a>
+
+          <a href="#new">
+            New Releases
+          </a>
+
+          <a href="#mylist">
+            My List
+          </a>
+
+        </div>
+
+
+
+        <!-- Company -->
+        <div class="footer-col">
+
+          <h3>
+            Clayve
+          </h3>
+
+          <a href="#home">
+            About
+          </a>
+
+          <a href="#home">
+            Contact
+          </a>
+
+          <a href="#home">
+            Help
+          </a>
+
+        </div>
+
+
+
+        <!-- Legal -->
+        <div class="footer-col">
+
+          <h3>
+            Legal
+          </h3>
+
+          <a href="#home">
+            Privacy
+          </a>
+
+          <a href="#home">
+            Terms
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =======================================================
+         FOOTER BOTTOM
+         ======================================================= -->
+
+    <div class="container footer-bottom">
+
+      <p>
+        &copy; 2026 Clayve. All rights reserved.
+      </p>
+
+
+      <div
+        class="social-row"
+        aria-label="Social media links"
+      >
+
+        <a
+          href="#"
+          aria-label="Instagram"
+        >
+          Instagram
+        </a>
+
+        <a
+          href="#"
+          aria-label="Twitter"
+        >
+          Twitter
+        </a>
+
+        <a
+          href="#"
+          aria-label="YouTube"
+        >
+          YouTube
+        </a>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
