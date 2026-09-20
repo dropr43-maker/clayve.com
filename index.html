@@ -167,15 +167,15 @@
 
           <!-- Profile button -->
           <button
-            class="profile-badge"
-            id="profileButton"
-            type="button"
-            aria-label="Open profile menu"
-            aria-expanded="false"
-            aria-controls="profileDropdown"
-          >
-            C
-          </button>
+  class="profile-badge"
+  id="profileButton"
+  type="button"
+  aria-label="Open profile menu"
+  aria-expanded="false"
+  aria-controls="profileDropdown"
+>
+  G
+</button>
 
 
           <!-- Profile dropdown -->
@@ -187,104 +187,107 @@
             <!-- Profile header -->
             <div class="profile-dropdown-header">
 
-              <div class="profile-avatar">
-                C
-              </div>
+  <div class="profile-avatar" id="profileAvatar">
+    G
+  </div>
 
-              <div class="profile-user-info">
+  <div class="profile-user-info">
 
-                <strong>
-                  Clayve User
-                </strong>
+    <strong id="profileName">
+      Guest
+    </strong>
 
-                <span>
-                  Welcome back
-                </span>
+    <span id="profileStatus">
+      Sign in to personalize Clayve
+    </span>
 
-              </div>
+  </div>
 
-            </div>
+</div>
 
 
             <!-- Divider -->
             <div class="profile-divider"></div>
 
 
-            <!-- Log In -->
             <button
-              class="profile-option"
-              type="button"
-              data-profile-action="login"
-            >
+  class="profile-option"
+  type="button"
+  data-profile-action="login"
+  id="profileLoginOption"
+>
+  <span class="profile-option-icon">
+    ↪
+  </span>
 
-              <span class="profile-option-icon">
-                ↪
-              </span>
+  <span>
+    Log In
+  </span>
+</button>
 
-              <span>
-                Log In
-              </span>
+<button
+  class="profile-option"
+  type="button"
+  data-profile-action="history"
+>
+  <span class="profile-option-icon">
+    ◷
+  </span>
 
-            </button>
+  <span>
+    Watch History
+  </span>
+</button>
+
+<button
+  class="profile-option"
+  type="button"
+  data-profile-action="settings"
+>
+  <span class="profile-option-icon">
+    ⚙
+  </span>
+
+  <span>
+    Settings
+  </span>
+</button>
+
+<button
+  class="profile-option profile-logout-option"
+  type="button"
+  data-profile-action="logout"
+  id="profileLogoutOption"
+>
+  <span class="profile-option-icon">
+    ↩
+  </span>
+
+  <span>
+    Log Out
+  </span>
+</button>
+
+</div> <!-- CLOSE profile-dropdown -->
+
+</div> <!-- CLOSE profile-menu -->
 
 
-            <!-- Watch History -->
-            <button
-              class="profile-option"
-              type="button"
-              data-profile-action="history"
-            >
+<!-- Mobile menu button -->
+<button
+  class="menu-toggle"
+  id="menuToggle"
+  type="button"
+  aria-label="Toggle navigation menu"
+  aria-expanded="false"
+  aria-controls="mobileMenu"
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
-              <span class="profile-option-icon">
-                ◷
-              </span>
-
-              <span>
-                Watch History
-              </span>
-
-            </button>
-
-
-            <!-- Settings -->
-            <button
-              class="profile-option"
-              type="button"
-              data-profile-action="settings"
-            >
-
-              <span class="profile-option-icon">
-                ⚙
-              </span>
-
-              <span>
-                Settings
-              </span>
-
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- Mobile menu button -->
-        <button
-          class="menu-toggle"
-          id="menuToggle"
-          type="button"
-          aria-label="Toggle navigation menu"
-          aria-expanded="false"
-          aria-controls="mobileMenu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-
-      </div>
-
-    </div>
+</div> <!-- CLOSE nav-actions -->
 
 
     <!-- =====================================================

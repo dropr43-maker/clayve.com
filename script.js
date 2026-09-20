@@ -2202,45 +2202,1021 @@
   );
 
 /* ================================================================
-   PROFILE MENU
+   PROFILE MENU — v2.5
    ================================================================ */
 
 const profileMenu = $(".profile-menu");
 const profileButton = $("#profileButton");
 
+const profileName = $("#profileName");
+const profileStatus = $("#profileStatus");
+const profileAvatar = $("#profileAvatar");
+
+const profileLoginOption = $("#profileLoginOption");
+const profileLogoutOption = $("#profileLogoutOption");
+
+const ACCOUNT_STORAGE_KEY =
+  "clayve:account:v1";
+
+
+let account = {
+  loggedIn: false,
+  name: "Guest",
+  email: ""
+};
+
+
+/* ---------------------------------------------------------------
+   ACCOUNT STORAGE
+   --------------------------------------------------------------- */
+
+function loadAccount() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        ACCOUNT_STORAGE_KEY
+      );
+
+    if (!saved)
+      return;
+
+    const parsed =
+      JSON.parse(saved);
+
+    if (
+      parsed &&
+      typeof parsed === "object"
+    ) {
+
+      account = {
+        loggedIn:
+          Boolean(parsed.loggedIn),
+
+        name:
+          parsed.name ||
+          "Guest",
+
+        email:
+          parsed.email ||
+          ""
+      };
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Clayve account restore failed:",
+      error
+    );
+
+  }
+
+}
+
+
+function saveAccount() {
+
+  try {
+
+    localStorage.setItem(
+      ACCOUNT_STORAGE_KEY,
+      JSON.stringify(account)
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "Clayve account save failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ---------------------------------------------------------------
+   PROFILE UI
+   --------------------------------------------------------------- */
+
+function updateProfileUI() {
+
+  if (!profileName || !profileStatus || !profileAvatar)
+    return;
+
+
+  if (account.loggedIn) {
+
+    const name =
+      account.name ||
+      "Clayve User";
+
+    const initial =
+      name
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+
+
+    profileName.textContent =
+      name;
+
+    profileStatus.textContent =
+      "Signed in to Clayve";
+
+    profileAvatar.textContent =
+      initial;
+
+    profileButton.textContent =
+      initial;
+
+
+    if (profileLoginOption)
+      profileLoginOption.style.display =
+        "none";
+
+    if (profileLogoutOption)
+      profileLogoutOption.style.display =
+        "flex";
+
+  } else {
+
+    profileName.textContent =
+      "Guest";
+
+    profileStatus.textContent =
+      "Sign in to personalize Clayve";
+
+    profileAvatar.textContent =
+      "G";
+
+    profileButton.textContent =
+      "G";
+
+
+    if (profileLoginOption)
+      profileLoginOption.style.display =
+        "flex";
+
+    if (profileLogoutOption)
+      profileLogoutOption.style.display =
+        "none";
+
+  }
+
+}
+
+/* ---------------------------------------------------------------
+   PROFILE DROPDOWN
+   --------------------------------------------------------------- */
+
 if (profileMenu && profileButton) {
 
-  profileButton.addEventListener("click", (event) => {
+  profileButton.addEventListener(
+    "click",
+    (event) => {
 
-    event.stopPropagation();
+      event.stopPropagation();
 
-    const isOpen =
-      profileMenu.classList.toggle("open");
+      const isOpen =
+        profileMenu.classList.toggle(
+          "open"
+        );
 
-    profileButton.setAttribute(
-      "aria-expanded",
-      String(isOpen)
+      profileButton.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+
+    }
+  );
+
+
+  document.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        !profileMenu.contains(
+          event.target
+        )
+      ) {
+
+        profileMenu.classList.remove(
+          "open"
+        );
+
+        profileButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ---------------------------------------------------------------
+   PROFILE OVERLAY
+   --------------------------------------------------------------- */
+
+function removeProfileOverlay() {
+
+  const overlay =
+    $("#profileOverlay");
+
+  if (overlay)
+    overlay.remove();
+
+}
+
+
+function createProfileOverlay(
+  title,
+  content
+) {
+
+  removeProfileOverlay();
+
+  const overlay =
+    document.createElement("div");
+
+  overlay.className =
+    "profile-overlay";
+
+  overlay.id =
+    "profileOverlay";
+
+  overlay.innerHTML = `
+
+    <div
+      class="profile-panel"
+      role="dialog"
+      aria-modal="true"
+    >
+
+      <button
+        class="profile-panel-close"
+        type="button"
+        aria-label="Close"
+        id="profilePanelClose"
+      >
+        ×
+      </button>
+
+      <div class="profile-panel-content">
+
+        <div class="profile-panel-brand">
+          <span class="profile-panel-logo">
+            C
+          </span>
+
+          <span>
+            CLAYVE
+          </span>
+        </div>
+
+        <h2>
+          ${title}
+        </h2>
+
+        ${content}
+
+      </div>
+
+    </div>
+
+  `;
+
+  document.body.appendChild(
+    overlay
+  );
+
+
+  requestAnimationFrame(() => {
+
+    overlay.classList.add(
+      "visible"
     );
 
   });
 
 
-  document.addEventListener("click", (event) => {
+  const closeButton =
+    $("#profilePanelClose");
 
-    if (!profileMenu.contains(event.target)) {
+  closeButton?.addEventListener(
+    "click",
+    removeProfileOverlay
+  );
 
-      profileMenu.classList.remove("open");
 
-      profileButton.setAttribute(
+  overlay.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        event.target === overlay
+      ) {
+
+        removeProfileOverlay();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ---------------------------------------------------------------
+   LOG IN
+   --------------------------------------------------------------- */
+
+function openLoginPanel() {
+
+  createProfileOverlay(
+    "Welcome back",
+    `
+
+      <p class="profile-panel-subtitle">
+        Sign in to continue watching and
+        keep your Clayve experience personal.
+      </p>
+
+      <form
+        class="profile-form"
+        id="clayveLoginForm"
+      >
+
+        <label>
+          Email
+          <input
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          >
+        </label>
+
+        <label>
+          Password
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          >
+        </label>
+
+        <button
+          type="submit"
+          class="profile-submit"
+        >
+          Log In
+        </button>
+
+      </form>
+
+      <p class="profile-switch">
+
+        Don't have an account?
+
+        <button
+          type="button"
+          id="openSignup"
+        >
+          Sign Up
+        </button>
+
+      </p>
+
+    `
+  );
+
+
+  const form =
+    $("#clayveLoginForm");
+
+  form?.addEventListener(
+    "submit",
+    (event) => {
+
+      event.preventDefault();
+
+      const formData =
+        new FormData(form);
+
+      const email =
+        String(
+          formData.get("email") || ""
+        ).trim();
+
+      const password =
+        String(
+          formData.get("password") || ""
+        );
+
+      if (
+        !email ||
+        !password
+      )
+        return;
+
+
+      /*
+       * Front-end account simulation.
+       * No real authentication server
+       * is connected yet.
+       */
+
+      const storedAccount =
+        localStorage.getItem(
+          "clayve:registered-account"
+        );
+
+
+      let name =
+        email
+          .split("@")[0]
+          .replace(/[._-]+/g, " ")
+          .replace(/\b\w/g, letter =>
+            letter.toUpperCase()
+          );
+
+
+      if (storedAccount) {
+
+        try {
+
+          const parsed =
+            JSON.parse(
+              storedAccount
+            );
+
+          if (
+            parsed.email === email
+          ) {
+
+            name =
+              parsed.name ||
+              name;
+
+          }
+
+        } catch (error) {}
+
+      }
+
+
+      account = {
+
+        loggedIn: true,
+
+        name,
+
+        email
+
+      };
+
+
+      saveAccount();
+
+      updateProfileUI();
+
+      removeProfileOverlay();
+
+      showToast(
+        `Welcome back, ${name}`
+      );
+
+    }
+  );
+
+
+  $("#openSignup")?.addEventListener(
+    "click",
+    openSignupPanel
+  );
+
+}
+
+
+/* ---------------------------------------------------------------
+   SIGN UP
+   --------------------------------------------------------------- */
+
+function openSignupPanel() {
+
+  createProfileOverlay(
+    "Create your account",
+    `
+
+      <p class="profile-panel-subtitle">
+        Create your Clayve profile and keep
+        your watch experience in one place.
+      </p>
+
+      <form
+        class="profile-form"
+        id="clayveSignupForm"
+      >
+
+        <label>
+          Name
+
+          <input
+            type="text"
+            name="name"
+            placeholder="Your name"
+            required
+          >
+
+        </label>
+
+        <label>
+          Email
+
+          <input
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          >
+
+        </label>
+
+        <label>
+          Password
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Create a password"
+            minlength="6"
+            required
+          >
+
+        </label>
+
+        <button
+          type="submit"
+          class="profile-submit"
+        >
+          Create Account
+        </button>
+
+      </form>
+
+      <p class="profile-switch">
+
+        Already have an account?
+
+        <button
+          type="button"
+          id="openLogin"
+        >
+          Log In
+        </button>
+
+      </p>
+
+    `
+  );
+
+
+  const form =
+    $("#clayveSignupForm");
+
+
+  form?.addEventListener(
+    "submit",
+    (event) => {
+
+      event.preventDefault();
+
+      const formData =
+        new FormData(form);
+
+      const name =
+        String(
+          formData.get("name") || ""
+        ).trim();
+
+      const email =
+        String(
+          formData.get("email") || ""
+        ).trim();
+
+      const password =
+        String(
+          formData.get("password") || ""
+        );
+
+
+      if (
+        !name ||
+        !email ||
+        !password
+      )
+        return;
+
+
+      localStorage.setItem(
+        "clayve:registered-account",
+        JSON.stringify({
+
+          name,
+
+          email,
+
+          password
+
+        })
+      );
+
+
+      account = {
+
+        loggedIn: true,
+
+        name,
+
+        email
+
+      };
+
+
+      saveAccount();
+
+      updateProfileUI();
+
+      removeProfileOverlay();
+
+      showToast(
+        `Welcome to Clayve, ${name}`
+      );
+
+    }
+  );
+
+
+  $("#openLogin")?.addEventListener(
+    "click",
+    openLoginPanel
+  );
+
+}
+
+
+/* ---------------------------------------------------------------
+   WATCH HISTORY
+   --------------------------------------------------------------- */
+
+function openWatchHistory() {
+
+  if (!account.loggedIn) {
+
+    createProfileOverlay(
+      "You're browsing as a guest",
+      `
+
+        <p class="profile-panel-subtitle">
+          Sign in to keep your Clayve watch
+          history connected to your profile.
+        </p>
+
+        <button
+          class="profile-submit"
+          type="button"
+          id="historyLoginButton"
+        >
+          Log In
+        </button>
+
+      `
+    );
+
+
+    $("#historyLoginButton")?.addEventListener(
+      "click",
+      openLoginPanel
+    );
+
+    return;
+
+  }
+
+
+  const recentMovies =
+    Array.isArray(APP.state.recent)
+      ? APP.state.recent
+      : [];
+
+
+  const movies =
+    recentMovies
+      .map(id => getMovie(id))
+      .filter(Boolean);
+
+
+  const historyHTML =
+    movies.length
+
+      ? `
+
+        <div class="profile-history-list">
+
+          ${movies.map(movie => `
+
+            <button
+              type="button"
+              class="profile-history-item"
+              data-history-movie="${movie.id}"
+            >
+
+              <div
+                class="profile-history-poster"
+                style="
+                  background-image:
+                  url('${escapeHTML(movie.poster)}');
+                "
+              ></div>
+
+              <div class="profile-history-info">
+
+                <strong>
+                  ${escapeHTML(movie.title)}
+                </strong>
+
+                <span>
+                  ${escapeHTML(movie.year || "")}
+                </span>
+
+              </div>
+
+            </button>
+
+          `).join("")}
+
+        </div>
+
+      `
+
+      : `
+
+        <div class="profile-empty-history">
+
+          <span>
+            ◷
+          </span>
+
+          <strong>
+            Nothing here yet
+          </strong>
+
+          <p>
+            Movies you watch will appear
+            in your history.
+          </p>
+
+        </div>
+
+      `;
+
+
+  createProfileOverlay(
+    "Watch History",
+    historyHTML
+  );
+
+
+  $$(".profile-history-item")
+    .forEach(item => {
+
+      item.addEventListener(
+        "click",
+        () => {
+
+          const movie =
+            getMovie(
+              item.dataset.historyMovie
+            );
+
+          removeProfileOverlay();
+
+          if (movie)
+            openMovie(movie);
+
+        }
+      );
+
+    });
+
+}
+
+
+/* ---------------------------------------------------------------
+   SETTINGS
+   --------------------------------------------------------------- */
+
+function openSettings() {
+
+  createProfileOverlay(
+    "Settings",
+    `
+
+      <div class="profile-settings">
+
+        <div class="profile-setting-row">
+
+          <div>
+
+            <strong>
+              Account
+            </strong>
+
+            <span>
+              ${
+                account.loggedIn
+                  ? escapeHTML(account.email)
+                  : "Guest account"
+              }
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="profile-setting-row">
+
+          <div>
+
+            <strong>
+              Reduced Motion
+            </strong>
+
+            <span>
+              Respect your device preference
+            </span>
+
+          </div>
+
+          <span class="profile-setting-state">
+            ${
+              window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+              ).matches
+                ? "On"
+                : "Off"
+            }
+          </span>
+
+        </div>
+
+
+        <div class="profile-setting-row">
+
+          <div>
+
+            <strong>
+              My List
+            </strong>
+
+            <span>
+              ${
+                APP.state.myList.length
+              } saved ${
+                APP.state.myList.length === 1
+                  ? "title"
+                  : "titles"
+              }
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="profile-settings-close"
+          id="settingsDone"
+        >
+          Done
+        </button>
+
+      </div>
+
+    `
+  );
+
+
+  $("#settingsDone")?.addEventListener(
+    "click",
+    removeProfileOverlay
+  );
+
+}
+
+
+/* ---------------------------------------------------------------
+   PROFILE ACTIONS
+   --------------------------------------------------------------- */
+
+if (profileMenu) {
+
+  profileMenu.addEventListener(
+    "click",
+    (event) => {
+
+      const option =
+        event.target.closest(
+          "[data-profile-action]"
+        );
+
+      if (!option)
+        return;
+
+
+      const action =
+        option.dataset.profileAction;
+
+
+      profileMenu.classList.remove(
+        "open"
+      );
+
+      profileButton?.setAttribute(
         "aria-expanded",
         "false"
       );
 
-    }
 
-  });
+      if (action === "login") {
+
+        openLoginPanel();
+
+      }
+
+
+      if (action === "history") {
+
+        openWatchHistory();
+
+      }
+
+
+      if (action === "settings") {
+
+        openSettings();
+
+      }
+
+
+      if (action === "logout") {
+
+        account = {
+
+          loggedIn: false,
+
+          name: "Guest",
+
+          email: ""
+
+        };
+
+
+        saveAccount();
+
+        updateProfileUI();
+
+        showToast(
+          "You have been logged out"
+        );
+
+      }
+
+    }
+  );
 
 }
+
+
+/* ---------------------------------------------------------------
+   ACCOUNT INITIALIZATION
+   --------------------------------------------------------------- */
+
+loadAccount();
+
+updateProfileUI();
   /* ================================================================
      31. APP ENHANCEMENT CSS
      ================================================================ */

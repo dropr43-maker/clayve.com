@@ -305,6 +305,13 @@ a {
   gap: 12px;
 
   flex-shrink: 0;
+
+  /*
+   * Keep search, profile and hamburger on one row.
+   * This prevents the hamburger from dropping underneath
+   * the profile dropdown on smaller screens.
+   */
+  flex-wrap: nowrap;
 }
 
 
@@ -456,6 +463,12 @@ a {
   background: rgba(255,255,255,.07);
 
   color: #fff;
+
+  /*
+   * Keeps hamburger above the profile dropdown visually.
+   */
+  position: relative;
+  z-index: 2000;
 }
 
 .menu-toggle span {
@@ -1789,6 +1802,7 @@ a:focus-visible,
 
   .nav-actions {
     gap: 10px;
+    flex-wrap: nowrap;
   }
 
   .movie-card {
@@ -1817,15 +1831,68 @@ a:focus-visible,
     display: none;
   }
 
+  /*
+   * IMPORTANT:
+   * Keeps the three header controls in one row:
+   * Search → Profile → Hamburger
+   */
   .nav-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
     margin-left: auto;
 
     gap: 8px;
+
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+
+    white-space: nowrap;
   }
 
+  /*
+   * Explicit order prevents the hamburger from dropping
+   * underneath the profile area.
+   */
   .search-box {
+    order: 1;
+
     width: 170px;
-    flex-basis: 170px;
+    flex: 0 1 170px;
+  }
+
+  .profile-menu {
+    order: 2;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    flex: 0 0 auto;
+
+    flex-shrink: 0;
+  }
+
+  .menu-toggle {
+    order: 3;
+
+    position: relative;
+
+    z-index: 2000;
+
+    display: flex;
+
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 38px;
+
+    flex-shrink: 0;
+
+    margin: 0;
   }
 
   .search-box input {
@@ -1844,15 +1911,6 @@ a:focus-visible,
   }
 
   .profile-badge {
-    width: 38px;
-    height: 38px;
-
-    flex-basis: 38px;
-  }
-
-  .menu-toggle {
-    display: flex;
-
     width: 38px;
     height: 38px;
 
@@ -1970,13 +2028,50 @@ a:focus-visible,
     height: 30px;
   }
 
+  /*
+   * Mobile header remains:
+   * Search → Profile → Hamburger
+   */
+  .nav-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 6px;
+
+    margin-left: auto;
+
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+
+    white-space: nowrap;
+  }
+
   .search-box {
+    order: 1;
+
     width: 125px;
-    flex-basis: 125px;
+    flex: 0 1 125px;
   }
 
   .search-box input {
     font-size: 11px;
+  }
+
+  .profile-menu {
+    order: 2;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    flex: 0 0 auto;
+
+    flex-shrink: 0;
+
+    z-index: 1100;
   }
 
   .profile-badge {
@@ -1984,13 +2079,33 @@ a:focus-visible,
     height: 36px;
 
     flex-basis: 36px;
+
+    flex: 0 0 36px;
   }
 
   .menu-toggle {
-    width: 36px;
-    height: 36px;
+    order: 3;
 
-    flex-basis: 36px;
+    position: relative !important;
+
+    z-index: 2000 !important;
+
+    display: flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 36px !important;
+    height: 36px !important;
+
+    min-width: 36px;
+
+    flex: 0 0 36px !important;
+
+    flex-shrink: 0;
+
+    margin: 0;
+    padding: 0;
   }
 
   .hero {
@@ -2081,17 +2196,23 @@ a:focus-visible,
   }
 }
 
+
 /* ================================================================
    PROFILE MENU
    ================================================================ */
 
 .profile-menu {
   position: relative;
+
   display: flex;
   align-items: center;
+
+  flex-shrink: 0;
 }
 
+
 /* Profile button */
+
 .profile-badge {
   position: relative;
   z-index: 20;
@@ -2123,8 +2244,11 @@ a:focus-visible,
 
 .profile-badge:hover {
   transform: translateY(-1px);
+
   background: rgba(255,255,255,.14);
-  border-color: rgba(255,255,255,.22);
+
+  border-color:
+    rgba(255,255,255,.22);
 
   box-shadow:
     0 8px 24px rgba(0,0,0,.25);
@@ -2180,7 +2304,11 @@ a:focus-visible,
     transform .18s ease,
     visibility .18s ease;
 
-  z-index: 100;
+  /*
+   * Below the hamburger but still above normal content.
+   * The hamburger itself has z-index: 2000.
+   */
+  z-index: 1500;
 }
 
 
@@ -2339,19 +2467,652 @@ a:focus-visible,
 
 
 /* ================================================================
-   MOBILE
+   PROFILE MENU — MOBILE HEADER FIX
    ================================================================ */
 
 @media (max-width: 480px) {
 
-  .profile-dropdown {
-    width: 225px;
-    right: -5px;
+  /*
+   * Keep profile as its own fixed-width flex item.
+   */
+  .profile-menu {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    flex: 0 0 auto;
+    flex-shrink: 0;
+
+    z-index: 1100;
   }
 
+  /*
+   * Dropdown stays attached to the profile icon.
+   *
+   * IMPORTANT:
+   * right: 0 prevents the dropdown from extending
+   * unnecessarily into the hamburger area.
+   */
+  .profile-dropdown {
+    width: 225px;
+
+    top: calc(100% + 10px);
+
+    right: 0;
+    left: auto;
+
+    z-index: 1500;
+  }
+
+  /*
+   * Profile icon remains directly before hamburger.
+   */
   .profile-badge {
     width: 38px;
     height: 38px;
+
+    flex: 0 0 38px;
+  }
+
+  /*
+   * Hamburger remains beside profile and above
+   * the dropdown visually.
+   */
+  .menu-toggle {
+    position: relative !important;
+
+    z-index: 2000 !important;
+
+    display: flex !important;
+
+    width: 36px !important;
+    height: 36px !important;
+
+    min-width: 36px;
+
+    flex: 0 0 36px !important;
+
+    margin: 0;
+    padding: 0;
+  }
+
+}
+
+
+/* ================================================================
+   CLAYVE v2.5 — PROFILE ACCOUNT SYSTEM
+   ================================================================ */
+
+.profile-logout-option {
+  display: none;
+}
+
+
+/* ---------------------------------------------------------------
+   PROFILE OVERLAY
+   --------------------------------------------------------------- */
+
+.profile-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 5000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(0, 0, 0, 0.72);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  opacity: 0;
+
+  transition:
+    opacity 0.22s ease;
+}
+
+
+.profile-overlay.visible {
+  opacity: 1;
+}
+
+
+/* ---------------------------------------------------------------
+   PROFILE PANEL
+   --------------------------------------------------------------- */
+
+.profile-panel {
+  position: relative;
+
+  width: min(430px, 100%);
+
+  max-height: min(
+    720px,
+    calc(100vh - 48px)
+  );
+
+  overflow-y: auto;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(27, 27, 30, 0.98),
+      rgba(12, 12, 14, 0.98)
+    );
+
+  box-shadow:
+    0 30px 80px
+    rgba(0, 0, 0, 0.55);
+
+  transform:
+    translateY(12px)
+    scale(0.98);
+
+  transition:
+    transform 0.22s ease;
+}
+
+
+.profile-overlay.visible
+.profile-panel {
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+
+.profile-panel-content {
+  padding: 34px;
+}
+
+
+.profile-panel-close {
+  position: absolute;
+
+  top: 16px;
+  right: 16px;
+
+  width: 36px;
+  height: 36px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  color: #fff;
+
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+
+.profile-panel-close:hover {
+  background:
+    rgba(255, 255, 255, 0.13);
+
+  transform:
+    rotate(90deg);
+}
+
+
+/* ---------------------------------------------------------------
+   BRAND
+   --------------------------------------------------------------- */
+
+.profile-panel-brand {
+  display: flex;
+
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 24px;
+
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  letter-spacing: 0.14em;
+}
+
+
+.profile-panel-logo {
+  display: grid;
+
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff,
+      #bdbdbd
+    );
+
+  color: #111;
+
+  font-size: 14px;
+  font-weight: 900;
+}
+
+
+.profile-panel h2 {
+  margin: 0 0 8px;
+
+  color: #fff;
+
+  font-size: 26px;
+  font-weight: 800;
+
+  letter-spacing: -0.025em;
+}
+
+
+.profile-panel-subtitle {
+  margin: 0 0 26px;
+
+  color:
+    rgba(255, 255, 255, 0.56);
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* ---------------------------------------------------------------
+   PROFILE FORMS
+   --------------------------------------------------------------- */
+
+.profile-form {
+  display: grid;
+
+  gap: 17px;
+}
+
+
+.profile-form label {
+  display: grid;
+
+  gap: 8px;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.profile-form input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.10);
+
+  border-radius: 11px;
+
+  outline: none;
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  color: #fff;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+
+.profile-form input::placeholder {
+  color:
+    rgba(255, 255, 255, 0.30);
+}
+
+
+.profile-form input:focus {
+  border-color:
+    rgba(255, 255, 255, 0.34);
+
+  background:
+    rgba(255, 255, 255, 0.075);
+}
+
+
+.profile-submit {
+  width: 100%;
+
+  margin-top: 4px;
+
+  padding: 13px 16px;
+
+  border: 0;
+  border-radius: 11px;
+
+  background: #fff;
+
+  color: #111;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease;
+}
+
+
+.profile-submit:hover {
+  transform:
+    translateY(-1px);
+
+  opacity: 0.9;
+}
+
+
+.profile-switch {
+  margin: 20px 0 0;
+
+  text-align: center;
+
+  color:
+    rgba(255, 255, 255, 0.48);
+
+  font-size: 13px;
+}
+
+
+.profile-switch button {
+  padding: 0;
+
+  border: 0;
+
+  background: none;
+
+  color: #fff;
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* ---------------------------------------------------------------
+   WATCH HISTORY
+   --------------------------------------------------------------- */
+
+.profile-history-list {
+  display: grid;
+
+  gap: 10px;
+}
+
+
+.profile-history-item {
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  padding: 8px;
+
+  border: 1px solid transparent;
+  border-radius: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  color: #fff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+
+.profile-history-item:hover {
+  background:
+    rgba(255, 255, 255, 0.085);
+
+  border-color:
+    rgba(255, 255, 255, 0.08);
+}
+
+
+.profile-history-poster {
+  flex: 0 0 48px;
+
+  width: 48px;
+  height: 64px;
+
+  border-radius: 8px;
+
+  background-position: center;
+  background-size: cover;
+
+  background-color:
+    rgba(255, 255, 255, 0.06);
+}
+
+
+.profile-history-info {
+  display: grid;
+
+  gap: 5px;
+
+  margin-left: 12px;
+}
+
+
+.profile-history-info strong {
+  font-size: 14px;
+}
+
+
+.profile-history-info span {
+  color:
+    rgba(255, 255, 255, 0.45);
+
+  font-size: 12px;
+}
+
+
+.profile-empty-history {
+  padding: 30px 10px;
+
+  text-align: center;
+}
+
+
+.profile-empty-history > span {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+
+  font-size: 30px;
+}
+
+
+.profile-empty-history strong {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #fff;
+
+  font-size: 15px;
+}
+
+
+.profile-empty-history p {
+  margin: 0;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* ---------------------------------------------------------------
+   SETTINGS
+   --------------------------------------------------------------- */
+
+.profile-settings {
+  display: grid;
+
+  gap: 10px;
+}
+
+
+.profile-setting-row {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 15px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  border-radius: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+}
+
+
+.profile-setting-row > div {
+  display: grid;
+
+  gap: 5px;
+}
+
+
+.profile-setting-row strong {
+  color: #fff;
+
+  font-size: 13px;
+}
+
+
+.profile-setting-row span {
+  color:
+    rgba(255, 255, 255, 0.43);
+
+  font-size: 11px;
+}
+
+
+.profile-setting-state {
+  color: #fff !important;
+
+  font-weight: 700;
+}
+
+
+.profile-settings-close {
+  width: 100%;
+
+  margin-top: 8px;
+
+  padding: 12px;
+
+  border: 0;
+  border-radius: 11px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  color: #fff;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.profile-settings-close:hover {
+  background:
+    rgba(255, 255, 255, 0.13);
+}
+
+
+/* ---------------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+  .profile-overlay {
+    padding: 15px;
+  }
+
+
+  .profile-panel {
+    border-radius: 18px;
+  }
+
+
+  .profile-panel-content {
+    padding: 27px 22px;
+  }
+
+
+  .profile-panel h2 {
+    font-size: 23px;
   }
 
 }
