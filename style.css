@@ -704,7 +704,9 @@ a {
   display: flex;
   align-items: center;
 
-  gap: 10px;
+  gap: 12px;
+
+  margin-top: 2px;
 }
 
 .perforation {
@@ -728,71 +730,186 @@ a {
 
 
 /* ================================================================
-   BUTTONS
+   HERO ACTION BUTTONS
    ================================================================ */
 
-.btn {
-  min-height: 45px;
+.hero-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 2px;
+}
+
+.hero-actions .btn {
+  position: relative;
+
+  min-height: 48px;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  gap: 8px;
+  gap: 10px;
 
-  padding: 0 18px;
+  padding: 0 21px;
 
-  border-radius: 11px;
+  border-radius: 999px;
 
   font-size: 13px;
   font-weight: 700;
 
+  letter-spacing: -.1px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
   transition:
-    transform .2s var(--ease),
-    background .2s ease,
-    border-color .2s ease,
-    box-shadow .2s ease;
+    transform .22s var(--ease),
+    background .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease,
+    color .22s ease;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
-}
 
-.btn:active {
-  transform: translateY(0) scale(.98);
-}
+/* ================================================================
+   PLAY BUTTON
+   ================================================================ */
 
-.btn-primary {
-  background: white;
+.hero-actions .btn-primary {
+  background: #fff;
 
   color: #08080a;
 
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.2);
-}
-
-.btn-primary:hover {
-  background: #ededf0;
+  border: 1px solid rgba(255,255,255,.9);
 
   box-shadow:
-    0 12px 35px rgba(0,0,0,.3);
+    0 8px 25px rgba(0,0,0,.24);
 }
 
-.btn-ghost {
-  background: rgba(255,255,255,.08);
+.hero-actions .btn-primary:hover {
+  transform:
+    translateY(-2px)
+    scale(1.015);
 
-  color: white;
+  background: #f1f1f3;
 
-  border: 1px solid rgba(255,255,255,.12);
-
-  backdrop-filter: blur(10px);
+  box-shadow:
+    0 13px 35px rgba(0,0,0,.34),
+    0 0 24px rgba(255,255,255,.08);
 }
 
-.btn-ghost:hover {
-  background: rgba(255,255,255,.13);
+
+/* ================================================================
+   MORE INFO BUTTON
+   ================================================================ */
+
+.hero-actions .btn-secondary {
+  background:
+    rgba(255,255,255,.085);
+
+  color: #fff;
+
+  border:
+    1px solid rgba(255,255,255,.18);
+
+  backdrop-filter:
+    blur(14px)
+    saturate(140%);
+
+  -webkit-backdrop-filter:
+    blur(14px)
+    saturate(140%);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 8px 25px rgba(0,0,0,.20);
+}
+
+.hero-actions .btn-secondary:hover {
+  transform:
+    translateY(-2px)
+    scale(1.015);
+
+  background:
+    rgba(255,255,255,.14);
 
   border-color:
-    rgba(255,255,255,.2);
+    rgba(255,255,255,.28);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 13px 35px rgba(0,0,0,.30);
+}
+
+
+/* ================================================================
+   HERO ICONS
+   ================================================================ */
+
+.hero-actions .btn svg {
+  width: 17px;
+  height: 17px;
+
+  flex: 0 0 17px;
+
+  display: block;
+
+  pointer-events: none;
+
+  transition:
+    transform .22s var(--ease);
+}
+
+
+/* Play icon */
+
+.hero-actions .btn-primary svg {
+  fill: currentColor;
+}
+
+
+/* Info icon */
+
+.hero-actions .btn-secondary svg {
+  fill: none;
+}
+
+
+/* Small icon movement on hover */
+
+.hero-actions .btn-primary:hover svg {
+  transform: translateX(1px) scale(1.04);
+}
+
+.hero-actions .btn-secondary:hover svg {
+  transform: scale(1.04);
+}
+
+
+/* ================================================================
+   ACTIVE / PRESS
+   ================================================================ */
+
+.hero-actions .btn:active {
+  transform:
+    scale(.97);
+}
+
+
+/* ================================================================
+   KEYBOARD FOCUS
+   ================================================================ */
+
+.hero-actions .btn:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.18),
+    0 10px 30px rgba(0,0,0,.30);
 }
 
 
@@ -2120,13 +2237,22 @@ a:focus-visible,
     gap: 7px;
   }
 
-  .btn {
-    min-height: 42px;
+  .hero-actions .btn {
+  min-height: 44px;
 
-    padding: 0 13px;
+  padding: 0 15px;
 
-    font-size: 12px;
-  }
+  gap: 8px;
+
+  font-size: 12px;
+}
+
+.hero-actions .btn svg {
+  width: 15px;
+  height: 15px;
+
+  flex-basis: 15px;
+}
 
   .movie-card {
     flex-basis: 132px;
