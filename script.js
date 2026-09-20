@@ -1,22 +1,5 @@
 /* =====================================================================
    CLAYVE — ADVANCED APP SCRIPT
-   Drop-in replacement for the original Clayve script.
-
-   Keeps the original functionality while adding:
-   - Persistent My List
-   - Recently Viewed
-   - Continue Watching
-   - Watch progress
-   - Search across title / genre / description
-   - Search debounce
-   - Toast notifications
-   - Better keyboard accessibility
-   - Modal focus trapping
-   - URL deep linking
-   - Better mobile behavior
-   - Reduced-motion support
-   - Safer dynamic HTML
-   - Performance improvements
    ===================================================================== */
 
 (() => {
@@ -2557,22 +2540,24 @@ function openLoginPanel() {
 
         <label>
           Email
-          <input
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            required
-          >
+         <input
+  type="email"
+  name="email"
+  placeholder="you@example.com"
+  autocomplete="email"
+  required
+>
         </label>
 
         <label>
           Password
           <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            required
-          >
+  type="password"
+  name="password"
+  placeholder="Enter your password"
+  autocomplete="current-password"
+  required
+>
         </label>
 
         <button
@@ -2732,23 +2717,24 @@ function openSignupPanel() {
           Name
 
           <input
-            type="text"
-            name="name"
-            placeholder="Your name"
-            required
-          >
-
+  type="text"
+  name="name"
+  placeholder="Your name"
+  autocomplete="name"
+  required
+>
         </label>
 
         <label>
           Email
 
-          <input
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            required
-          >
+         <input
+  type="email"
+  name="email"
+  placeholder="you@example.com"
+  autocomplete="email"
+  required
+>
 
         </label>
 
@@ -2756,12 +2742,13 @@ function openSignupPanel() {
           Password
 
           <input
-            type="password"
-            name="password"
-            placeholder="Create a password"
-            minlength="6"
-            required
-          >
+  type="password"
+  name="password"
+  placeholder="Create a password"
+  autocomplete="new-password"
+  minlength="6"
+  required
+>
 
         </label>
 
