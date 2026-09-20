@@ -2331,7 +2331,7 @@ function updateProfileUI() {
       "Guest";
 
     profileStatus.textContent =
-      "Sign in to personalize Clayve";
+      "Sign in to tailor Clayve";
 
     profileAvatar.textContent =
       "G";
